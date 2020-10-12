@@ -43,7 +43,9 @@ mod fixed_vector;
 pub mod serde_utils;
 mod tree_hash;
 mod variable_list;
+mod byte_field;
 
+pub use byte_field::{ByteList, ByteVector, Bytefield};
 pub use bitfield::{BitList, BitVector, Bitfield};
 pub use fixed_vector::FixedVector;
 pub use typenum;
