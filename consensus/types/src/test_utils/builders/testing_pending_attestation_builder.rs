@@ -32,6 +32,7 @@ impl<T: EthSpec> TestingPendingAttestationBuilder<T> {
             data: data_builder.build(),
             inclusion_delay: spec.min_attestation_inclusion_delay,
             proposer_index,
+            crosslink_success: false,
         };
 
         Self {

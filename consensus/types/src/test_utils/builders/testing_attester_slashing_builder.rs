@@ -67,6 +67,7 @@ impl TestingAttesterSlashingBuilder {
             beacon_block_root: hash_1,
             source: checkpoint_1,
             target: checkpoint_1,
+            ..Default::default()
         };
 
         let data_2 = if test_task == AttesterSlashingTestTask::NotSlashable {

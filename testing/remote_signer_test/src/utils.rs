@@ -202,5 +202,8 @@ pub fn get_attestation<E: EthSpec>(seed: u64) -> AttestationData {
         beacon_block_root: Hash256::from_low_u64_be(666 * seed),
         source,
         target,
+        shard: 0,
+        shard_head_root: Hash256::from_low_u64_be(0),
+        shard_transition_root: Hash256::from_low_u64_be(0),
     }
 }

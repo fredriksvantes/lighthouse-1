@@ -370,6 +370,7 @@ pub fn process_attestations<T: EthSpec>(
             data: attestation.data.clone(),
             inclusion_delay: state.slot.safe_sub(attestation.data.slot)?.as_u64(),
             proposer_index,
+            crosslink_success: false,
         };
 
         if attestation.data.target.epoch == state.current_epoch() {
@@ -476,6 +477,9 @@ pub fn process_deposit<T: EthSpec>(
                 spec.max_effective_balance,
             ),
             slashed: false,
+            next_custody_secret_to_reveal: 0,
+            all_custody_secrets_revealed_epoch: spec.far_future_epoch,
+
         };
         state.validators.push(validator)?;
         state.balances.push(deposit.data.amount)?;
