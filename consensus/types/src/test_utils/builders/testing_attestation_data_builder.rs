@@ -86,6 +86,7 @@ impl TestingAttestationDataBuilder {
             // FFG Vote
             source,
             target,
+            ..Default::default()
         };
 
         Self { data }

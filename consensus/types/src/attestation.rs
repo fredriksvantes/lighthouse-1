@@ -84,6 +84,16 @@ impl<T: EthSpec> Attestation<T> {
     }
 }
 
+impl<T: EthSpec> Default for Attestation<T> {
+    fn default() -> Self {
+        Self {
+            aggregation_bits: BitList::with_capacity(0).unwrap(),
+            data: AttestationData::default(),
+            signature: AggregateSignature::empty(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

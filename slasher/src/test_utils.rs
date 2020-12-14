@@ -40,6 +40,9 @@ pub fn indexed_att(
                 epoch: Epoch::new(target_epoch),
                 root: Hash256::from_low_u64_be(target_root),
             },
+            shard: 0,
+            shard_head_root: Hash256::from_low_u64_be(0),
+            shard_transition_root: Hash256::from_low_u64_be(0),
         },
         signature: AggregateSignature::empty(),
     }

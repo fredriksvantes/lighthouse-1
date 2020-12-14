@@ -17,6 +17,9 @@ pub struct PendingAttestation<T: EthSpec> {
     pub inclusion_delay: u64,
     #[serde(with = "serde_utils::quoted_u64")]
     pub proposer_index: u64,
+
+    // Phase 1
+    pub crosslink_success: bool,
 }
 
 #[cfg(feature = "arbitrary-fuzz")]

@@ -943,6 +943,9 @@ impl<T: BeaconChainTypes> BeaconChain<T> {
                     epoch,
                     root: target_root,
                 },
+                shard: 0,
+                shard_head_root: Hash256::from_low_u64_be(0),
+                shard_transition_root: Hash256::from_low_u64_be(0),
             },
             signature: AggregateSignature::empty(),
         })
@@ -1877,6 +1880,7 @@ impl<T: BeaconChainTypes> BeaconChain<T> {
                         .into(),
                     deposits,
                     voluntary_exits: self.op_pool.get_voluntary_exits(&state, &self.spec).into(),
+                    ..Default::default()
                 },
             },
             // The block is not signed here, that is the task of a validator client.

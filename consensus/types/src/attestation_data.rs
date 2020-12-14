@@ -35,6 +35,11 @@ pub struct AttestationData {
     // FFG Vote
     pub source: Checkpoint,
     pub target: Checkpoint,
+
+    // Phase 1
+    pub shard: u64,
+    pub shard_head_root: Hash256,
+    pub shard_transition_root: Hash256,
 }
 
 impl SignedRoot for AttestationData {}

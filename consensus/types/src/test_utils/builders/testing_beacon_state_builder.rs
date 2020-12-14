@@ -67,6 +67,7 @@ impl<T: EthSpec> TestingBeaconStateBuilder<T> {
                     withdrawable_epoch: spec.far_future_epoch,
                     slashed: false,
                     effective_balance: starting_balance,
+                    ..Default::default()
                 }
             })
             .collect::<Vec<_>>()

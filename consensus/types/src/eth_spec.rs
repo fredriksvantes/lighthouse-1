@@ -5,6 +5,7 @@ use serde_derive::{Deserialize, Serialize};
 use ssz_types::typenum::{
     Unsigned, U0, U1024, U1099511627776, U128, U16, U16777216, U2, U2048, U32, U4, U4096, U64,
     U65536, U8, U8192,
+    U1, U9, U12, U256, U32768, U1048576,
 };
 use std::fmt::{self, Debug};
 use std::str::FromStr;
@@ -91,6 +92,22 @@ pub trait EthSpec: 'static + Default + Sync + Send + Clone + Debug + PartialEq +
     ///
     /// Must be set to `EpochsPerEth1VotingPeriod * SlotsPerEpoch`
     type SlotsPerEth1VotingPeriod: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+
+    // Phase 1
+    type MaxCustodyChunkChallengeRecords: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxCustodyKeyReveals: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxEarlyDerivedSecretReveals: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxCustodyChunkChallenges: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxCustodyChunkChallengeResponses: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxCustodySlashings: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxShards: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxShardBlocksPerAttestation: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type LightClientCommitteeSize: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type EarlyDerivedSecretPenaltyMaxFutureEpochs: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxEarlyDerivedSecretRevealsBySlots: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type BytesPerCustodyChunk: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type CustodyResponseDepthInc: Unsigned + Clone + Sync + Send + Debug + PartialEq;
+    type MaxShardBlockSize: Unsigned + Clone + Sync + Send + Debug + PartialEq;
 
     fn default_spec() -> ChainSpec;
 
@@ -208,6 +225,22 @@ impl EthSpec for MainnetEthSpec {
     type MaxPendingAttestations = U4096; // 128 max attestations * 32 slots per epoch
     type SlotsPerEth1VotingPeriod = U2048; // 64 epochs * 32 slots per epoch
 
+    // Phase 1
+    type BytesPerCustodyChunk = U4096;
+    type MaxShardBlockSize = U1048576;
+    type MaxCustodyChunkChallengeRecords = U1048576;
+    type MaxCustodyKeyReveals = U256;
+    type MaxEarlyDerivedSecretReveals = U1;
+    type MaxCustodyChunkChallenges = U4;
+    type MaxCustodyChunkChallengeResponses = U16;
+    type MaxCustodySlashings = U1;
+    type MaxShards = U1024;
+    type MaxShardBlocksPerAttestation = U12;
+    type LightClientCommitteeSize = U128;
+    type EarlyDerivedSecretPenaltyMaxFutureEpochs = U32768;
+    type MaxEarlyDerivedSecretRevealsBySlots = U32;
+    type CustodyResponseDepthInc = U9;
+
     fn default_spec() -> ChainSpec {
         ChainSpec::mainnet()
     }
@@ -235,6 +268,12 @@ impl EthSpec for MinimalEthSpec {
     type MaxPendingAttestations = U1024; // 128 max attestations * 8 slots per epoch
     type SlotsPerEth1VotingPeriod = U32; // 4 epochs * 8 slots per epoch
 
+    // Phase 1
+    type MaxCustodyChunkChallenges = U2;
+    type MaxShards = U8;
+    type EarlyDerivedSecretPenaltyMaxFutureEpochs = U64;
+    type MaxEarlyDerivedSecretRevealsBySlots = U8;
+
     params_from_eth_spec!(MainnetEthSpec {
         JustificationBitsLength,
         SubnetBitfieldLength,
@@ -246,7 +285,19 @@ impl EthSpec for MinimalEthSpec {
         MaxAttesterSlashings,
         MaxAttestations,
         MaxDeposits,
-        MaxVoluntaryExits
+        MaxVoluntaryExits,
+
+        // Phase 1
+        MaxCustodyChunkChallengeResponses,
+        MaxCustodyChunkChallengeRecords,
+        MaxCustodyKeyReveals,
+        MaxEarlyDerivedSecretReveals,
+        MaxCustodySlashings,
+        MaxShardBlocksPerAttestation,
+        LightClientCommitteeSize,
+        BytesPerCustodyChunk,
+        CustodyResponseDepthInc,
+        MaxShardBlockSize
     });
 
     fn default_spec() -> ChainSpec {
@@ -289,7 +340,23 @@ impl EthSpec for V012LegacyEthSpec {
         MaxAttesterSlashings,
         MaxAttestations,
         MaxDeposits,
-        MaxVoluntaryExits
+        MaxVoluntaryExits,
+
+        // Phase 1
+        BytesPerCustodyChunk,
+        MaxShardBlockSize,
+        MaxCustodyChunkChallengeRecords,
+        MaxCustodyKeyReveals,
+        MaxEarlyDerivedSecretReveals,
+        MaxCustodyChunkChallenges,
+        MaxCustodyChunkChallengeResponses,
+        MaxCustodySlashings,
+        MaxShards,
+        MaxShardBlocksPerAttestation,
+        LightClientCommitteeSize,
+        EarlyDerivedSecretPenaltyMaxFutureEpochs,
+        MaxEarlyDerivedSecretRevealsBySlots,
+        CustodyResponseDepthInc
     });
 
     fn default_spec() -> ChainSpec {

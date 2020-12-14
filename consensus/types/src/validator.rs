@@ -21,6 +21,10 @@ pub struct Validator {
     pub activation_epoch: Epoch,
     pub exit_epoch: Epoch,
     pub withdrawable_epoch: Epoch,
+
+    // Phase 1
+    pub next_custody_secret_to_reveal: u64,
+    pub all_custody_secrets_revealed_epoch: Epoch,
 }
 
 impl Validator {
@@ -79,6 +83,7 @@ impl Default for Validator {
             withdrawable_epoch: Epoch::from(std::u64::MAX),
             slashed: false,
             effective_balance: std::u64::MAX,
+            ..Default::default()
         }
     }
 }
