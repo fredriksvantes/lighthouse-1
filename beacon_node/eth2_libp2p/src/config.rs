@@ -139,7 +139,7 @@ impl Default for Config {
             .gossip_lazy(6)
             .fanout_ttl(Duration::from_secs(60))
             .history_length(6)
-            .max_messages_per_rpc(Some(10))
+            .max_messages_per_rpc(Some(10000))
             .history_gossip(3)
             .validate_messages() // require validation before propagation
             .validation_mode(ValidationMode::Anonymous)
