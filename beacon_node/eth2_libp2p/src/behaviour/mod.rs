@@ -917,13 +917,24 @@ impl<TSpec: EthSpec> Behaviour<TSpec> {
                 // send peer info to the peer manager.
                 self.peer_manager.identify(&peer_id, &info);
 
-                debug!(self.log, "Identified Peer"; "peer" => %peer_id,
-                    "protocol_version" => info.protocol_version,
-                    "agent_version" => info.agent_version,
-                    "listening_ addresses" => ?info.listen_addrs,
-                    "observed_address" => ?observed_addr,
-                    "protocols" => ?info.protocols
-                );
+                if info.agent_version.contains("Lighthouse") {
+                    debug!(self.log, "Identified Prysm or nimbus Peer"; "peer" => %peer_id,
+                        "protocol_version" => info.protocol_version,
+                        "agent_version" => info.agent_version,
+                        "listening_ addresses" => ?info.listen_addrs,
+                        "observed_address" => ?observed_addr,
+                        "protocols" => ?info.protocols
+                    );
+                } else {
+                    self.peer_manager.goodbye_peer(&peer_id, GoodbyeReason::TooManyPeers, ReportSource::Gossipsub);
+                    debug!(self.log, "Identified non prysm/nimbus Peer so disconnecting"; "peer" => %peer_id,
+                        "protocol_version" => info.protocol_version,
+                        "agent_version" => info.agent_version,
+                        "listening_ addresses" => ?info.listen_addrs,
+                        "observed_address" => ?observed_addr,
+                        "protocols" => ?info.protocols
+                    );
+                }
             }
             IdentifyEvent::Sent { .. } => {}
             IdentifyEvent::Error { .. } => {}
